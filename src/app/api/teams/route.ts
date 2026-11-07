@@ -31,6 +31,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const schema = z.object({
+    id: z.uuid().optional(),
     name: z.string().max(50),
     ownerId: z.uuid().optional(),
   });
@@ -47,7 +48,7 @@ export async function POST(request: Request) {
 
   const { name, ownerId } = body;
 
-  const teamId = uuid();
+  const teamId = id ?? uuid();
   const teamOwnerId = ownerId && auth.user.isAdmin ? ownerId : auth.user.id;
 
   let account = null;
